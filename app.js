@@ -354,6 +354,24 @@ function startGame() {
 introBtn.addEventListener('click', startGame);
 
 /* ════════════════════════════════════════════════════════════════════
+   PRELOADER LIFECYCLE
+   Builds the grid in background while preloader is visible.
+   After 2.5 s the overlay fades out, revealing the game.
+   ════════════════════════════════════════════════════════════════════ */
+const preloader = document.getElementById('preloader');
+
+window.addEventListener('load', () => {
+  /* Build grid silently while preloader is on screen */
+  buildGrid();
+
+  setTimeout(() => {
+    preloader.classList.add('fade-out');
+    /* Remove from DOM after transition ends (500 ms) */
+    setTimeout(() => preloader.remove(), 500);
+  }, 2500);
+});
+
+/* ════════════════════════════════════════════════════════════════════
    CONFETTI ENGINE (Canvas-based, no deps)
    ════════════════════════════════════════════════════════════════════ */
 let confettiRunning = false;
