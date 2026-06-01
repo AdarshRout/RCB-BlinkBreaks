@@ -285,7 +285,7 @@ function endGame() {
 function showResultModal() {
   const pct     = Math.round((brokenCount / TOTAL) * 100);
   const elapsed = GAME_TIME - timerLeft;
-  const coupon  = `RCB-MUNCH${discount}`;
+  const coupon  = `RCB-CUP-${discount}`;
 
   /* Dynamic headline & tagline */
   let headline, tagline;
@@ -300,8 +300,7 @@ function showResultModal() {
   modalCouponCode.textContent  = coupon;
   modalDiscountNum.textContent = discount;
   modalStatsText.innerHTML     =
-    `Smashed <strong>${brokenCount}</strong> / <strong>${TOTAL}</strong> bricks `
-    + `(<strong>${pct}%</strong>) in <strong>${elapsed}s</strong>`;
+    `BLINKBROKE <strong>${brokenCount}</strong> bricks in <strong>${elapsed}s</strong>`;
 
   /* Store coupon for copy button */
   document.getElementById('modal-copy-btn').dataset.coupon = coupon;
