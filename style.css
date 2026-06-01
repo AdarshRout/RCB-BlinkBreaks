@@ -117,7 +117,7 @@ html, body {
   letter-spacing: 5px;
   text-align: center;
   line-height: 1;
-  background: linear-gradient(to right, #ffffff 15%, var(--rcb-red) 55%, var(--rcb-gold) 90%);
+  background: linear-gradient(to right, var(--rcb-red) 10%, var(--rcb-gold) 90%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -132,10 +132,10 @@ html, body {
   font-size: clamp(20px, 5vw, 28px);
   font-weight: 900;
   font-style: italic;
-  color: var(--rcb-gold);
+  color: #ffffff;
   text-align: center;
   letter-spacing: 3px;
-  text-shadow: 0 0 15px rgba(245, 197, 24, 0.45);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.3), 0 0 20px rgba(204, 0, 0, 0.5);
   margin-top: 6px;
   margin-bottom: 4px;
 }
