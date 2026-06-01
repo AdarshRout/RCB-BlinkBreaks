@@ -182,26 +182,30 @@ html, body {
 .hud-left, #hud-left   { color: #fff; }
 .hud-right, #hud-right { color: var(--blinkit-yellow); }
 
-/* ── BLINKIT CENTER LOGO ─────────────────────────────────────── */
+/* ── CO-BRANDING CENTER LOGO ──────────────────────────────────── */
 .hud-center-logo, #hud-center {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 10px;
   height: 100%;
 }
-.hud-center-logo img, #hud-center img {
-  height: 28px;
+.brand-blinkit {
+  height: 32px;
   width: auto;
   object-fit: contain;
-  display: block;
 }
-.partner-text {
-  color: #FF3333;
-  font-weight: 900;
-  font-size: 1.1rem;
-  letter-spacing: 0.5px;
-  font-family: system-ui, -apple-system, sans-serif;
-  text-shadow: 1px 1px 0px #000;
+.brand-multiplier {
+  color: #FFF;
+  font-weight: 800;
+  font-size: 0.95rem;
+  opacity: 0.8;
+  margin: 0 2px;
+}
+.brand-rcb {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
 }
 
 /* ── TIMER DANGER STATE ─────────────────────────────────────── */
