@@ -83,8 +83,8 @@ function initGame() {
   /* ── Reset logo overlay ── */
   logoOverlay.classList.remove('active');
 
-  /* ── Stop confetti ── */
-  stopConfetti();
+  /* ── Stop fireworks ── */
+  stopFireworks();
 
   /* ── Build the 128 bricks ── */
   buildGrid();
@@ -310,8 +310,8 @@ function showResultModal() {
   modalOverlay.classList.add('visible');
   modalOverlay.setAttribute('aria-hidden', 'false');
 
-  /* Confetti for meaningful discounts */
-  if (discount >= 10) launchConfetti();
+  /* Continuous gorgeous fireworks throughout the screen */
+  launchFireworks();
 }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -371,67 +371,104 @@ window.addEventListener('load', () => {
 });
 
 /* ════════════════════════════════════════════════════════════════════
-   CONFETTI ENGINE (Canvas-based, no deps)
+   FIREWORKS ENGINE (Canvas-based, no deps, continuous beautiful bursts)
    ════════════════════════════════════════════════════════════════════ */
-let confettiRunning = false;
-let confettiParts   = [];
-let confettiRaf     = null;
-const CONF_COLORS   = ['#CC0000','#F5C518','#ff6b35','#ffffff','#ff4081','#00e5ff','#ffcc00'];
+let fireworksRunning = false;
+let rockets = [];
+let sparks = [];
+let fireworksRaf = null;
 
-function launchConfetti() {
+const FW_COLORS = ['#CC0000', '#F5C518', '#ff6b35', '#ffffff', '#ff4081', '#00e5ff', '#ffcc00'];
+
+function launchFireworks() {
   confettiCanvas.width  = window.innerWidth;
   confettiCanvas.height = window.innerHeight;
-  confettiParts   = [];
-  confettiRunning = true;
+  rockets = [];
+  sparks = [];
+  fireworksRunning = true;
+  tickFireworks();
+}
 
-  for (let i = 0; i < 130; i++) {
-    confettiParts.push({
-      x:     Math.random() * confettiCanvas.width,
-      y:     Math.random() * confettiCanvas.height - confettiCanvas.height,
-      w:     5 + Math.random() * 7,
-      h:     3 + Math.random() * 4,
-      color: CONF_COLORS[Math.floor(Math.random() * CONF_COLORS.length)],
-      vx:    (Math.random() - 0.5) * 2.5,
-      vy:    2.2 + Math.random() * 3.5,
-      angle: Math.random() * 360,
-      spin:  (Math.random() - 0.5) * 7,
-      life:  1,
+function spawnRocket() {
+  if (rockets.length > 5) return;
+  const x = Math.random() * confettiCanvas.width;
+  const y = confettiCanvas.height;
+  const targetY = confettiCanvas.height * 0.12 + Math.random() * (confettiCanvas.height * 0.45);
+  const speed = 7 + Math.random() * 5;
+  const color = FW_COLORS[Math.floor(Math.random() * FW_COLORS.length)];
+  rockets.push({ x, y, targetY, speed, color, radius: 3 });
+}
+
+function spawnExplosion(x, y, color) {
+  const count = 40 + Math.floor(Math.random() * 20);
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1.8 + Math.random() * 4.2;
+    sparks.push({
+      x: x,
+      y: y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      color: color,
+      alpha: 1.0,
+      decay: 0.01 + Math.random() * 0.01,
+      gravity: 0.05,
+      size: 1.8 + Math.random() * 2.2
     });
   }
-  tickConfetti();
 }
 
-function tickConfetti() {
-  if (!confettiRunning) return;
+function tickFireworks() {
+  if (!fireworksRunning) return;
   confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
 
-  confettiParts.forEach(p => {
-    p.x     += p.vx;
-    p.y     += p.vy;
-    p.angle += p.spin;
-    p.life  -= 0.0035;
-    if (p.y > confettiCanvas.height) { p.y = -10; p.x = Math.random() * confettiCanvas.width; }
-    confettiCtx.save();
-    confettiCtx.globalAlpha = Math.max(0, p.life);
-    confettiCtx.translate(p.x, p.y);
-    confettiCtx.rotate((p.angle * Math.PI) / 180);
-    confettiCtx.fillStyle = p.color;
-    confettiCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-    confettiCtx.restore();
-  });
-
-  confettiParts = confettiParts.filter(p => p.life > 0);
-  if (confettiParts.length && confettiRunning) {
-    confettiRaf = requestAnimationFrame(tickConfetti);
-  } else {
-    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-    confettiRunning = false;
+  if (Math.random() < 0.04) {
+    spawnRocket();
   }
+
+  // Update & Draw Rockets
+  for (let i = rockets.length - 1; i >= 0; i--) {
+    const r = rockets[i];
+    r.y -= r.speed;
+
+    confettiCtx.beginPath();
+    confettiCtx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+    confettiCtx.fillStyle = r.color;
+    confettiCtx.fill();
+
+    if (r.y <= r.targetY) {
+      spawnExplosion(r.x, r.y, r.color);
+      rockets.splice(i, 1);
+    }
+  }
+
+  // Update & Draw Sparks
+  for (let i = sparks.length - 1; i >= 0; i--) {
+    const s = sparks[i];
+    s.x += s.vx;
+    s.y += s.vy;
+    s.vy += s.gravity;
+    s.alpha -= s.decay;
+
+    if (s.alpha <= 0) {
+      sparks.splice(i, 1);
+    } else {
+      confettiCtx.save();
+      confettiCtx.globalAlpha = s.alpha;
+      confettiCtx.beginPath();
+      confettiCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+      confettiCtx.fillStyle = s.color;
+      confettiCtx.fill();
+      confettiCtx.restore();
+    }
+  }
+
+  fireworksRaf = requestAnimationFrame(tickFireworks);
 }
 
-function stopConfetti() {
-  confettiRunning = false;
-  if (confettiRaf) { cancelAnimationFrame(confettiRaf); confettiRaf = null; }
+function stopFireworks() {
+  fireworksRunning = false;
+  if (fireworksRaf) { cancelAnimationFrame(fireworksRaf); fireworksRaf = null; }
   confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
 }
 
@@ -446,9 +483,9 @@ document.addEventListener('touchmove', e => {
 
 document.addEventListener('gesturestart', e => e.preventDefault(), { passive: false });
 
-/* Resize — keep confetti canvas in sync */
+/* Resize — keep fireworks canvas in sync */
 window.addEventListener('resize', () => {
-  if (confettiRunning) {
+  if (fireworksRunning) {
     confettiCanvas.width  = window.innerWidth;
     confettiCanvas.height = window.innerHeight;
   }
