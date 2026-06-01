@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0d0303" />
+  <meta name="description" content="RCB Fortress Breaker — Double-tap engraved RCB bricks to shatter the fortress and unlock your Blinkit discount!" />
+  <title>RCB Fortress Breaker 🏆</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ═══ INTRO SCREEN ═══════════════════════════════════════════════ -->
+  <div id="intro-screen">
+    <div id="intro-trophy"></div>
+    <h1 id="intro-title">RCB <em>Fortress</em><br>Breaker</h1>
+    <p id="intro-sub">Double-tap engraved bricks to smash the fortress<br>and unlock your Blinkit discount!</p>
+    <ul id="intro-rules">
+      <li><span class="ri">👆</span> Double-tap any brick within 300 ms</li>
+      <li><span class="ri">⏱️</span> 19-second challenge — starts on first break</li>
+      <li><span class="ri">🧱</span> Break all 128 bricks for max 50% off</li>
+      <li><span class="ri">🏆</span> Trophies appear when bricks shatter</li>
+    </ul>
+    <button id="intro-btn">PLAY BOLD 🔴</button>
+  </div>
+
+  <!-- ═══ GAME SHELL ══════════════════════════════════════════════════ -->
+  <div id="game-shell">
+
+    <!-- Background poster -->
+    <div id="bg-poster"></div>
+
+    <!-- HUD — floated overlay -->
+    <header id="hud">
+      <div class="hud-pill" id="hud-left">
+        <span class="hud-label">Broken</span>
+        <span class="hud-val" id="hud-broken">0</span>
+      </div>
+
+      <div id="hud-center">
+        <span id="hud-brand">RCB</span>
+        <span id="hud-brand-sub">FORTRESS BREAKER</span>
+      </div>
+
+      <div class="hud-pill" id="hud-right">
+        <span class="hud-label">Time</span>
+        <span class="hud-val" id="hud-timer">19</span>
+      </div>
+    </header>
+
+    <!-- 8×16 Brick grid overlay -->
+    <div id="grid-wall"></div>
+
+    <!-- RCB Logo Overlay -->
+    <div id="logo-overlay" class="logo-container">
+      <div class="light-rays"></div>
+      <img class="rcb-logo" src="assets/Logo.svg.png" alt="RCB Logo" />
+    </div>
+
+    <!-- Bottom progress strip -->
+    <div id="progress-wrap">
+      <div id="progress-bar"></div>
+    </div>
+
+    <!-- Floating hint -->
+    <div id="hint-text">👆 Double-tap a brick to shatter it!</div>
+
+  </div><!-- /game-shell -->
+
+  <!-- ═══ RESULT MODAL ════════════════════════════════════════════════ -->
+  <div id="modal-overlay" aria-hidden="true">
+    <div id="modal" role="dialog" aria-labelledby="modal-headline">
+      <div id="modal-trophy-icon"></div>
+      <h2 id="modal-headline">PLAY BOLD!</h2>
+      <p id="modal-tagline">You smashed the fortress!</p>
+
+      <div id="modal-coupon-box">
+        <p id="modal-coupon-label">YOUR BLINKIT COUPON</p>
+        <p id="modal-coupon-code">RCB-MUNCH0</p>
+      </div>
+
+      <div id="modal-discount-row">
+        <span id="modal-discount-num">0</span><span id="modal-discount-pct">% OFF</span>
+      </div>
+
+      <p id="modal-stats-text"></p>
+
+      <button id="modal-copy-btn" onclick="copyCode()">🎉 Copy Coupon Code</button>
+      <button id="modal-retry-btn" onclick="retryGame()">↩ Play Again</button>
+    </div>
+  </div>
+
+  <!-- ═══ CONFETTI LAYER ══════════════════════════════════════════════ -->
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- Logic -->
+  <script src="app.js" defer></script>
+
+</body>
+</html>
