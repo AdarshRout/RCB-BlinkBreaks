@@ -18,7 +18,7 @@
   --cols:        8;
   --rows:        16;
   --poster-ratio: 0.75;           /* width / height = 3/4          */
-  --hud-h:       56px;
+  --hud-h:       84px;            /* Increased height for vertical HUD + Hint text stack */
   --bar-h:       5px;
   --radius-pill: 12px;
   --transition-shatter: 0.3s cubic-bezier(0.55, 0, 1, 0.45);
@@ -142,7 +142,7 @@ html, body {
  * Everything inside is stacked with position:absolute so the poster,
  * grid, HUD and progress bar all share the same bounding box.
  */
-#game-shell {
+#game-shell, .game-container {
   position: relative;
   width: 100vw;
   max-width: 600px;
@@ -154,6 +154,8 @@ html, body {
   /* Centre vertically within the dark body */
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
 }
 
 /* ── BACKGROUND POSTER ───────────────────────────────────────────── */
@@ -171,20 +173,25 @@ html, body {
 }
 
 /* ── HUD TOP BAR ─────────────────────────────────────────────────── */
-#hud {
-  position: absolute;
-  top: 0; left: 0; right: 0;
+#hud, .hud-bar {
+  position: relative;
   z-index: 20;
   height: var(--hud-h);
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 14px;
+  gap: 4px;
+  background: #222;
+  border-bottom: 2px solid rgba(245, 197, 24, 0.4);
+}
+
+.hud-row {
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
-  gap: 8px;
-  background: linear-gradient(to bottom,
-    rgba(0, 0, 0, 0.75) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  width: 100%;
 }
 
 .hud-pill {
@@ -245,17 +252,15 @@ html, body {
  * Absolute overlay that exactly covers the game shell (same bounding box
  * as the poster). z-index 5 sits above the poster (1) but below HUD (20).
  */
-#grid-wall {
-  position: absolute;
+#grid-wall, .grid-wall {
+  position: relative;
   width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  flex: 1;
   z-index: 5;
   display: grid;
   grid-template-columns: repeat(var(--cols), 1fr);
   grid-template-rows:    repeat(var(--rows), 1fr);
-  /* The grid only occupies the middle section; HUD and progress bar overlay it */
+  /* The grid only occupies the remaining section below HUD and above progress wrap */
 }
 
 /* ── BRICK CELL ──────────────────────────────────────────────────── */
@@ -322,16 +327,12 @@ html, body {
 
 /* ── HINT TEXT ───────────────────────────────────────────────────── */
 #hint-text {
-  position: absolute;
-  bottom: calc(var(--bar-h) + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  letter-spacing: 0.4px;
-  white-space: nowrap;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+  font-size: 11px;
+  color: var(--rcb-gold);
+  letter-spacing: 0.6px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
   animation: blink 2s ease-in-out infinite;
   pointer-events: none;
 }
