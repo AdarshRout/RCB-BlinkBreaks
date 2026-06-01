@@ -85,12 +85,30 @@ html, body {
   object-fit: contain;
 }
 
+.intro-trophy-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  animation: trophy-float 2.2s ease-in-out infinite;
+}
+
 #intro-trophy {
   width: 88px;
   height: 88px;
   background: url('assets/trophy.png') center / contain no-repeat;
   filter: drop-shadow(0 0 18px var(--rcb-gold));
-  animation: trophy-float 2.2s ease-in-out infinite;
+}
+
+.intro-multiplier {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 88px;
+  line-height: 88px;
+  font-weight: 900;
+  color: var(--rcb-gold);
+  text-shadow: 0 0 28px rgba(245, 197, 24, 0.65);
+  display: inline-block;
+  user-select: none;
 }
 
 #intro-title {
