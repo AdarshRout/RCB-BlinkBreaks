@@ -60,27 +60,29 @@ html, body {
 
 /* ── BRAND PRESENTATION ────────────────────────────────────────── */
 .brand-presentation {
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 85%;
-  max-width: 400px;
+  gap: 16px;
   margin-bottom: 32px;
 }
-.presenter-logo {
-  height: 64px;
+.brand-presentation .brand-blinkit {
+  height: 52px;
   width: auto;
   object-fit: contain;
-  margin-bottom: 12px;
 }
-.presenter-text {
-  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
-  font-weight: 900;
-  color: #c0c0c0;
-  text-transform: uppercase;
-  font-size: 1.3rem;
-  letter-spacing: 6px;
+.brand-presentation .brand-multiplier {
+  color: #FFF;
+  font-weight: 800;
+  font-size: 1.4rem;
+  opacity: 0.8;
+  margin: 0 4px;
+}
+.brand-presentation .brand-rcb {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
 }
 
 #intro-trophy {
