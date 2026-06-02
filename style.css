@@ -83,13 +83,20 @@ body {
   color: #8b0000;
 }
 
-/* Landing Page & Modal Overlay Specific Positioning */
-#intro-screen .mute-toggle,
-#modal-overlay .mute-toggle {
+/* Landing Page Mute Button — anchors to intro-screen top-right */
+#intro-screen .mute-toggle {
   position: absolute;
   top: 16px;
   right: 16px;
-  z-index: 250; /* Float over all primary overlays */
+  z-index: 250;
+}
+
+/* Modal Card Mute Button — anchors to the #modal card top-right corner */
+#modal .mute-toggle {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 260;
 }
 
 /* HUD Right Sub-Flex Wrapper */
