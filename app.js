@@ -548,13 +548,17 @@ introBtn.addEventListener('click', () => {
   startGame();
 });
 
-// Setup Global Mute Toggle Button
-const muteBtn = document.getElementById('mute-toggle');
-if (muteBtn) {
-  muteBtn.addEventListener('click', () => {
+// Setup Global Mute Toggle Buttons
+const muteBtns = document.querySelectorAll('.mute-toggle');
+muteBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
     isMuted = !isMuted;
-    muteBtn.textContent = isMuted ? '🔇' : '🔊';
-    muteBtn.classList.toggle('muted', isMuted);
+    
+    // Synchronize all speaker icons on click
+    muteBtns.forEach(b => {
+      b.textContent = isMuted ? '🔇' : '🔊';
+      b.classList.toggle('muted', isMuted);
+    });
     
     // Resume context on toggle interaction just in case
     try {
@@ -563,7 +567,7 @@ if (muteBtn) {
     
     playSound('click');
   });
-}
+});
 
 /* ════════════════════════════════════════════════════════════════════
    PRELOADER LIFECYCLE

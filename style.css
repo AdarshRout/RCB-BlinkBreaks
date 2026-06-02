@@ -33,9 +33,13 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: var(--rcb-dark);
+  background-color: #0c0c0c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: 'Outfit', sans-serif;
   overflow: hidden;
+  overflow-x: hidden;
   /* Prevent native zoom & selection on mobile */
   touch-action: manipulation;
   user-select: none;
@@ -43,19 +47,15 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ── GLOBAL MUTE TOGGLE ─────────────────────────────────────────── */
-#mute-toggle {
-  position: absolute;
-  top: clamp(12px, 3vh, 20px);
-  right: clamp(12px, 3vh, 20px);
-  z-index: 450;
-  width: 44px;
-  height: 44px;
+/* ── GLOBAL MUTE TOGGLES ─────────────────────────────────────────── */
+.mute-toggle {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(13, 3, 3, 0.75);
   border: 1px solid rgba(245, 197, 24, 0.3);
   color: var(--rcb-gold);
-  font-size: 20px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,21 +65,37 @@ body {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
   -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
 }
 
-#mute-toggle:hover {
+.mute-toggle:hover {
   transform: scale(1.08);
   border-color: var(--rcb-gold);
   box-shadow: 0 0 12px rgba(245, 197, 24, 0.4);
 }
 
-#mute-toggle:active {
+.mute-toggle:active {
   transform: scale(0.95);
 }
 
-#mute-toggle.muted {
+.mute-toggle.muted {
   border-color: rgba(204, 0, 0, 0.4);
   color: #8b0000;
+}
+
+/* Landing Page Specific Positioning */
+#intro-screen .mute-toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 50;
+}
+
+/* HUD Right Sub-Flex Wrapper */
+.hud-right-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* ── INTRO SCREEN ────────────────────────────────────────────────── */
@@ -161,21 +177,38 @@ body {
   user-select: none;
 }
 
-#intro-title {
+.sholay-title {
   font-family: 'Outfit', system-ui, -apple-system, sans-serif;
-  font-size: clamp(36px, 7vh, 76px);
   font-weight: 900;
-  letter-spacing: -1.5px;
+  letter-spacing: -2px;
   text-align: center;
-  line-height: 1;
+  line-height: 0.95;
+  margin: 0;
+  user-select: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 8px;
+  overflow: hidden;
+  filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.45));
+  
+  /* Seamless yellow-to-red horizontal linear gradient */
   background: linear-gradient(to right, #ffce00 45%, #ec1c24 55%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.45));
-  margin: 0;
-  user-select: none;
+}
+
+.sholay-title span {
+  display: inline-block;
+  text-transform: uppercase;
+  color: inherit;
+  -webkit-text-fill-color: inherit;
+  font-size: clamp(32px, 6.8vh, 48px);
 }
 
 .intro-hashtag {
@@ -269,6 +302,7 @@ body {
   height: 100dvh;
   margin: 0 auto;
   overflow: hidden;
+  overflow-x: hidden;
   background: url('assets/champions_poster.jpg') center / cover no-repeat;
   font-family: system-ui, -apple-system, sans-serif;
   box-sizing: border-box;
@@ -956,4 +990,11 @@ body {
   min-width: 62px;
   padding: 4px 10px;
 }
+
+@media (min-width: 480px) {
+  .game-container {
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    border-left: 1px solid #222;
+    border-right: 1px solid #222;
+  }
 }
