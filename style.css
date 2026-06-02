@@ -264,7 +264,7 @@ body {
 .game-container {
   position: relative;
   width: 100vw;
-  max-width: 600px;
+  max-width: 430px;
   height: 100vh;
   height: 100dvh;
   margin: 0 auto;
